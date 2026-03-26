@@ -1,0 +1,20 @@
+// TODO: Replace hardcoded teams with Confluence API integration
+export const TEAMS = [
+  'Engineering',
+  'Product',
+  'Design',
+  'Data',
+  'People / HR',
+  'Finance',
+  'Legal',
+  'Sales',
+  'Marketing',
+  'Customer Success',
+  'Operations',
+  'Revenue Operations',
+  'Sales Operations',
+  'Partnerships',
+  'DevOps / Infrastructure',
+  'QA',
+  'Security',
+]

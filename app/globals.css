@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --yuno-blue: #3E4FE0;
+  --yuno-lilac: #E8EAF5;
+  --yuno-green: #E0ED80;
+  --yuno-black: #282A30;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #F8F9FC;
+  color: #282A30;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.option-card {
+  @apply w-full text-left px-5 py-4 rounded-2xl border-2 border-transparent bg-white
+         shadow-sm hover:border-[#3E4FE0] hover:shadow-md hover:bg-[#F0F1FC]
+         transition-all duration-200 cursor-pointer font-medium text-[#282A30];
+}
+
+.option-card.selected {
+  @apply border-[#3E4FE0] bg-[#F0F1FC] shadow-md;
+}
+
+.btn-primary {
+  @apply bg-[#3E4FE0] text-white font-semibold px-8 py-3 rounded-full
+         hover:bg-[#3244c4] transition-colors duration-200 cursor-pointer;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-[#3E4FE0] font-semibold px-8 py-3 rounded-full
+         border-2 border-[#3E4FE0] hover:bg-[#F0F1FC] transition-colors duration-200 cursor-pointer;
+}
