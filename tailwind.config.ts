@@ -11,9 +11,15 @@ const config: Config = {
       colors: {
         yuno: {
           blue: '#3E4FE0',
-          lilac: '#E8EAF5',
-          green: '#E0ED80',
           black: '#282A30',
+          gray: '#92959B',
+          lilac: '#E8EAF5',
+          'deep-blue': '#1726A6',
+          'mid-blue': '#5967E4',
+          'soft-blue': '#7C89EF',
+          'pale-blue': '#BDC3F6',
+          steel: '#616366',
+          green: '#E0ED80',
           bg: '#F8F9FC',
         }
       },
@@ -22,11 +28,13 @@ const config: Config = {
       },
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',
-        'slide-up': 'slideUp 0.4s ease-out',
+        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+        'scale-in': 'scaleIn 0.3s ease-out',
       },
       keyframes: {
         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        slideUp: { '0%': { opacity: '0', transform: 'translateY(24px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        scaleIn: { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
       }
     },
   },

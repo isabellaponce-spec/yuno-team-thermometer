@@ -7,81 +7,92 @@ export default function ThermometerHero() {
 
   useEffect(() => {
     setMounted(true)
-    // Animate fill from 0 to 72% over 2 seconds
     const timer = setTimeout(() => setFillLevel(72), 300)
     return () => clearTimeout(timer)
   }, [])
 
   return (
-    <div className={`relative w-64 h-80 mx-auto transition-opacity duration-1000 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Glow backdrop */}
-      <div className="absolute inset-0 flex items-center justify-center">
+    <div className={`relative w-72 h-80 mx-auto transition-opacity duration-1000 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Ambient glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div
-          className="w-40 h-40 rounded-full blur-[80px] animate-pulse-slow"
-          style={{ background: 'radial-gradient(circle, rgba(62,79,224,0.3) 0%, rgba(224,237,128,0.15) 60%, transparent 100%)' }}
+          className="w-48 h-48 rounded-full blur-[80px] animate-pulse-slow"
+          style={{ background: 'radial-gradient(circle, rgba(62,79,224,0.25) 0%, rgba(189,195,246,0.15) 50%, transparent 100%)' }}
         />
       </div>
+
+      {/* Orbiting dots */}
+      {mounted && (
+        <>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0">
+            <div className="w-3 h-3 rounded-full bg-[#3E4FE0]" style={{ animation: 'orbit 8s linear infinite', '--orbit-radius': '100px' } as React.CSSProperties} />
+          </div>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#E0ED80]" style={{ animation: 'orbit 12s linear infinite reverse', '--orbit-radius': '85px' } as React.CSSProperties} />
+          </div>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0">
+            <div className="w-2 h-2 rounded-full bg-[#BDC3F6]" style={{ animation: 'orbit 10s linear infinite', '--orbit-radius': '115px' } as React.CSSProperties} />
+          </div>
+        </>
+      )}
 
       {/* Floating particles */}
       {mounted && (
         <>
-          <Particle delay={0} x={20} y={60} size={4} color="#3E4FE0" duration={3} />
-          <Particle delay={0.5} x={75} y={40} size={3} color="#E0ED80" duration={4} />
-          <Particle delay={1} x={85} y={70} size={5} color="#3E4FE0" duration={3.5} />
-          <Particle delay={1.5} x={15} y={30} size={3} color="#E0ED80" duration={4.5} />
-          <Particle delay={0.8} x={60} y={20} size={4} color="#E8EAF5" duration={3.2} />
-          <Particle delay={2} x={40} y={80} size={3} color="#3E4FE0" duration={3.8} />
-          <Particle delay={0.3} x={90} y={50} size={4} color="#E0ED80" duration={4.2} />
-          <Particle delay={1.2} x={10} y={75} size={3} color="#E8EAF5" duration={3.6} />
+          <Particle delay={0} x={12} y={55} size={6} color="#3E4FE0" duration={3.5} />
+          <Particle delay={0.5} x={82} y={35} size={5} color="#E0ED80" duration={4} />
+          <Particle delay={1} x={88} y={68} size={8} color="#BDC3F6" duration={3.2} />
+          <Particle delay={1.5} x={8} y={25} size={4} color="#E0ED80" duration={4.5} />
+          <Particle delay={0.8} x={65} y={15} size={5} color="#E8EAF5" duration={3.8} />
+          <Particle delay={2} x={35} y={82} size={4} color="#5967E4" duration={4.2} />
+          <Particle delay={0.3} x={92} y={48} size={6} color="#7C89EF" duration={3.6} />
+          <Particle delay={1.2} x={5} y={78} size={5} color="#BDC3F6" duration={3.4} />
         </>
       )}
 
       {/* Main thermometer SVG */}
       <svg
         viewBox="0 0 200 320"
-        className="relative z-10 w-full h-full drop-shadow-2xl"
-        style={{ filter: 'drop-shadow(0 8px 32px rgba(62,79,224,0.2))' }}
+        className="relative z-10 w-full h-full"
+        style={{ filter: 'drop-shadow(0 12px 40px rgba(62,79,224,0.18))' }}
       >
         <defs>
-          {/* Glass gradient for the tube */}
           <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.15)" />
-            <stop offset="30%" stopColor="rgba(255,255,255,0.08)" />
-            <stop offset="70%" stopColor="rgba(255,255,255,0.03)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.12)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+            <stop offset="50%" stopColor="rgba(255,255,255,0.05)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.15)" />
           </linearGradient>
 
-          {/* Fill gradient - Yuno blue to green */}
           <linearGradient id="fillGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stopColor="#3E4FE0" />
-            <stop offset="50%" stopColor="#5B6BF0" />
-            <stop offset="100%" stopColor="#7B8FF8" />
+            <stop offset="0%" stopColor="#1726A6" />
+            <stop offset="40%" stopColor="#3E4FE0" />
+            <stop offset="70%" stopColor="#5967E4" />
+            <stop offset="100%" stopColor="#7C89EF" />
           </linearGradient>
 
-          {/* Bulb radial gradient */}
           <radialGradient id="bulbGrad" cx="0.45" cy="0.45" r="0.55">
-            <stop offset="0%" stopColor="#7B8FF8" />
-            <stop offset="60%" stopColor="#3E4FE0" />
-            <stop offset="100%" stopColor="#2A3BC0" />
+            <stop offset="0%" stopColor="#7C89EF" />
+            <stop offset="50%" stopColor="#3E4FE0" />
+            <stop offset="100%" stopColor="#1726A6" />
           </radialGradient>
 
-          {/* Glass shine */}
+          <linearGradient id="greenAccent" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#E0ED80" />
+            <stop offset="100%" stopColor="#d4e060" />
+          </linearGradient>
+
           <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-            <stop offset="40%" stopColor="rgba(255,255,255,0.25)" />
-            <stop offset="60%" stopColor="rgba(255,255,255,0.25)" />
+            <stop offset="40%" stopColor="rgba(255,255,255,0.3)" />
+            <stop offset="60%" stopColor="rgba(255,255,255,0.3)" />
             <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
 
-          {/* Clip path for the thermometer shape */}
           <clipPath id="thermoClip">
-            {/* Tube */}
             <rect x="75" y="30" width="50" height="200" rx="25" />
-            {/* Bulb */}
             <circle cx="100" cy="255" r="42" />
           </clipPath>
 
-          {/* Glow filter */}
           <filter id="glow">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge>
@@ -89,30 +100,30 @@ export default function ThermometerHero() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+
+          <filter id="softShadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#3E4FE0" floodOpacity="0.15" />
+          </filter>
         </defs>
 
-        {/* Outer body - glass look */}
-        <g>
-          {/* Thermometer outline */}
+        {/* Outer body */}
+        <g filter="url(#softShadow)">
           <rect x="75" y="30" width="50" height="200" rx="25"
-            fill="rgba(232,234,245,0.4)" stroke="rgba(62,79,224,0.2)" strokeWidth="2" />
+            fill="rgba(232,234,245,0.5)" stroke="rgba(62,79,224,0.15)" strokeWidth="1.5" />
           <circle cx="100" cy="255" r="42"
-            fill="rgba(232,234,245,0.4)" stroke="rgba(62,79,224,0.2)" strokeWidth="2" />
-
-          {/* Inner tube track */}
-          <rect x="85" y="40" width="30" height="185" rx="15"
-            fill="rgba(232,234,245,0.3)" />
+            fill="rgba(232,234,245,0.5)" stroke="rgba(62,79,224,0.15)" strokeWidth="1.5" />
         </g>
 
-        {/* Mercury / Fill - animated */}
+        {/* Inner track */}
+        <rect x="85" y="40" width="30" height="185" rx="15"
+          fill="rgba(232,234,245,0.25)" />
+
+        {/* Fill */}
         <g clipPath="url(#thermoClip)">
-          {/* Bulb fill - always full */}
           <circle cx="100" cy="255" r="38" fill="url(#bulbGrad)">
-            {/* Subtle pulse */}
-            <animate attributeName="r" values="36;38;36" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="r" values="36;38;36" dur="2.5s" repeatCount="indefinite" />
           </circle>
 
-          {/* Column fill - animated height */}
           <rect
             x="87"
             width="26"
@@ -124,7 +135,7 @@ export default function ThermometerHero() {
             style={{ transition: 'y 2s cubic-bezier(0.34, 1.56, 0.64, 1), height 2s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
           />
 
-          {/* Bubble rising animation */}
+          {/* Bubbles */}
           <circle cx="95" cy="220" r="3" fill="rgba(255,255,255,0.3)">
             <animate attributeName="cy" values="250;160;80" dur="3s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0.4;0.6;0" dur="3s" repeatCount="indefinite" />
@@ -141,42 +152,42 @@ export default function ThermometerHero() {
           </circle>
         </g>
 
-        {/* Glass reflection / shine */}
+        {/* Glass shine */}
         <rect x="88" y="40" width="8" height="180" rx="4" fill="url(#shine)" opacity="0.6" />
         <ellipse cx="100" cy="250" rx="12" ry="8" fill="rgba(255,255,255,0.1)" />
 
         {/* Scale marks */}
         {[0, 1, 2, 3, 4].map(i => (
-          <g key={i} opacity={0.4}>
+          <g key={i} opacity={0.35}>
             <line
               x1="128" y1={195 - i * 40} x2="140" y2={195 - i * 40}
-              stroke="#3E4FE0" strokeWidth="2" strokeLinecap="round"
+              stroke="#5967E4" strokeWidth="2" strokeLinecap="round"
             />
             {i > 0 && (
               <line
                 x1="128" y1={195 - i * 40 + 20} x2="134" y2={195 - i * 40 + 20}
-                stroke="#3E4FE0" strokeWidth="1" strokeLinecap="round" opacity="0.5"
+                stroke="#5967E4" strokeWidth="1" strokeLinecap="round" opacity="0.5"
               />
             )}
           </g>
         ))}
 
-        {/* Temperature label with animation */}
+        {/* Label badge */}
         <g className="animate-fade-in" style={{ animationDelay: '2s', animationFillMode: 'both' }}>
-          <rect x="138" y="88" width="52" height="26" rx="13" fill="rgba(62,79,224,0.1)" />
-          <text x="164" y="106" textAnchor="middle" fill="#3E4FE0" fontSize="12" fontWeight="700" fontFamily="Inter, system-ui, sans-serif">
+          <rect x="136" y="84" width="56" height="30" rx="15" fill="url(#greenAccent)" />
+          <text x="164" y="104" textAnchor="middle" fill="#282A30" fontSize="13" fontWeight="700" fontFamily="Inter, system-ui, sans-serif">
             72%
           </text>
         </g>
 
         {/* Top cap */}
-        <rect x="85" y="26" width="30" height="12" rx="6" fill="rgba(62,79,224,0.15)" />
+        <rect x="85" y="26" width="30" height="12" rx="6" fill="rgba(62,79,224,0.12)" />
       </svg>
 
-      {/* Bottom glow reflection */}
+      {/* Bottom reflection */}
       <div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-8 rounded-full blur-xl"
-        style={{ background: 'rgba(62,79,224,0.25)' }}
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-6 rounded-full blur-xl"
+        style={{ background: 'rgba(62,79,224,0.2)' }}
       />
     </div>
   )

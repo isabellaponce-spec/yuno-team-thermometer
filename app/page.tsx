@@ -96,8 +96,8 @@ export default function Home() {
   const { step } = state
 
   return (
-    <main className="min-h-screen bg-[#F8F9FC] flex items-center justify-center">
-      <div className="w-full max-w-lg">
+    <main className="min-h-screen bg-[#F8F9FC] bg-pattern flex items-center justify-center overflow-hidden">
+      <div className="w-full max-w-lg relative">
         {step === 0 && <Welcome onStart={() => goToStep(1)} />}
         {step === 1 && <TeamSelect onSelect={handleTeamSelect} />}
         {step >= 2 && step <= 10 && (
