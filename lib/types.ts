@@ -14,6 +14,11 @@ export interface SurveyState {
     apprenticeship?: number
   }
   openFeedback: string
+  concern: {
+    wantsConcern: boolean
+    concernName: string
+    concernText: string
+  }
 }
 
 export interface Dimension {

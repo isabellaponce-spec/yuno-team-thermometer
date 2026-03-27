@@ -4,6 +4,7 @@ import Welcome from '@/components/Welcome'
 import TeamSelect from '@/components/TeamSelect'
 import DimensionQuestion from '@/components/DimensionQuestion'
 import OpenFeedback from '@/components/OpenFeedback'
+import RaiseConcern from '@/components/RaiseConcern'
 import ThankYou from '@/components/ThankYou'
 import { DIMENSIONS } from '@/lib/dimensions'
 import type { SurveyState } from '@/lib/types'
@@ -14,6 +15,11 @@ const INITIAL_STATE: SurveyState = {
   customTeam: '',
   responses: {},
   openFeedback: '',
+  concern: {
+    wantsConcern: false,
+    concernName: '',
+    concernText: '',
+  },
 }
 
 // Steps:
@@ -21,7 +27,32 @@ const INITIAL_STATE: SurveyState = {
 // 1 = TeamSelect
 // 2-10 = Dimension questions (index 0-8)
 // 11 = OpenFeedback
-// 12 = ThankYou
+// 12 = RaiseConcern
+// 13 = ThankYou
+
+async function submitSurvey(state: SurveyState) {
+  const payload = {
+    team: state.customTeam || state.team,
+    customTeam: state.customTeam || null,
+    responses: state.responses,
+    openFeedback: state.openFeedback || null,
+    concernName: state.concern.wantsConcern ? state.concern.concernName : null,
+    concernText: state.concern.wantsConcern ? state.concern.concernText : null,
+  }
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (!res.ok) {
+      console.error('Submit failed:', await res.text())
+    }
+  } catch (err) {
+    console.error('Submit error:', err)
+  }
+}
 
 export default function Home() {
   const [state, setState] = useState<SurveyState>(INITIAL_STATE)
@@ -40,17 +71,24 @@ export default function Home() {
     }))
   }
 
-  const handleSubmit = (feedback: string) => {
-    const payload = {
-      team: state.customTeam || state.team,
-      customTeam: state.customTeam || null,
-      timestamp: new Date().toISOString(),
-      responses: state.responses,
-      openFeedback: feedback || null,
-    }
-    // TODO: Connect to backend/database for response storage
-    console.log('Survey submitted:', JSON.stringify(payload, null, 2))
+  const handleFeedbackSubmit = (feedback: string) => {
     setState(prev => ({ ...prev, openFeedback: feedback, step: 12 }))
+  }
+
+  const handleConcernSubmit = async (concernName: string, concernText: string) => {
+    const updated = {
+      ...state,
+      concern: { wantsConcern: true, concernName, concernText },
+      step: 13,
+    }
+    setState(updated)
+    await submitSurvey(updated)
+  }
+
+  const handleConcernSkip = async () => {
+    const updated = { ...state, step: 13 }
+    setState(updated)
+    await submitSurvey(updated)
   }
 
   const handleReset = () => setState(INITIAL_STATE)
@@ -71,8 +109,9 @@ export default function Home() {
             onAnswer={(value) => handleAnswer(DIMENSIONS[step - 2].id, value)}
           />
         )}
-        {step === 11 && <OpenFeedback onSubmit={handleSubmit} />}
-        {step === 12 && <ThankYou onReset={handleReset} />}
+        {step === 11 && <OpenFeedback onSubmit={handleFeedbackSubmit} />}
+        {step === 12 && <RaiseConcern onSubmit={handleConcernSubmit} onSkip={handleConcernSkip} />}
+        {step === 13 && <ThankYou onReset={handleReset} />}
       </div>
     </main>
   )
